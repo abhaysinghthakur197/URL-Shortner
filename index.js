@@ -1,6 +1,12 @@
 const express = require('express');
 
+
+// path 
+const path = require('path')
+
 const urlRoute = require('./routes/url');
+
+const staticRouter = require('./routes/staticRouter');
 
 // mongodb connect
 const { connectToMongoDB } = require('./connect');
@@ -17,15 +23,26 @@ const PORT = 8001;
 
 
 
+
 // mongodb url
 connectToMongoDB("mongodb://127.0.0.1:27017/short-url").then(() => console.log('connect mongodb')).catch((e) => console.log(e));
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+// path of views page
+app.set('views',path.resolve('./views'))
 
-// parse request in json format
+// Middleware - parse request in json format
 app.use(express.json());
+
+// Middleware - To pass the form data 
+app.use(express.urlencoded({extended: false}));
 
 
 app.use("/url", urlRoute);
+
+// For Frontend Static Pages
+app.use("/",staticRouter);
 
  
 
