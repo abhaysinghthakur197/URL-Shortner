@@ -8,6 +8,9 @@ const urlRoute = require('./routes/url');
 
 const staticRouter = require('./routes/staticRouter');
 
+// Route for user signup and login
+const userRoute = require('./routes/user')
+
 // mongodb connect
 const { connectToMongoDB } = require('./connect');
 
@@ -44,8 +47,8 @@ app.use("/url", urlRoute);
 // For Frontend Static Pages
 app.use("/",staticRouter);
 
- 
-
+// For Sign up and login 
+app.use("/user",userRoute);
 
 // get
 app.get('/url/:shortId', async (req, res) => {
@@ -62,6 +65,7 @@ app.get('/url/:shortId', async (req, res) => {
     });
     res.redirect(entry.redirectURL);
 });
+
 
 
 
