@@ -14,8 +14,14 @@ async function handleGenerateNewShortURL(req,res) {
         redirectURL: body.url,
         visitHistory:[],
      });
+     
+    //  Before adding frontend return shortId in json format
+    //  return res.json({id: shortID});
 
-     return res.json({id: shortID});
+    // After adding frontend
+    return res.render("Home", {
+    id: shortID
+    })
 }
 
 async function handleTotalClicksAnalytics(req,res) {
