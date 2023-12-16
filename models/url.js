@@ -12,6 +12,14 @@ const urlSchema = new mongoose.Schema({
         required: true
      },
      visitHistory: [{timestamp: {type: Number}}],
+
+   //   Adding created by for seeing login user only generated url
+     createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users'
+     }
+   // **** //
+   
 },{ timestamps : true}
 );
 

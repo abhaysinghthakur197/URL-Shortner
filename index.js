@@ -11,6 +11,19 @@ const staticRouter = require('./routes/staticRouter');
 // Route for user signup and login
 const userRoute = require('./routes/user')
 
+// To use the cookie in project
+const cookieParser = require('cookie-parser')
+
+
+// To restrict the user 
+const {restrictToLoggedInUserOnly} = require('./middleware/auth')
+
+// To show the url to login user of himself -> last in lec video
+const {checkAuth} = require('./middleware/auth')
+//  ******** //
+
+
+
 // mongodb connect
 const { connectToMongoDB } = require('./connect');
 
@@ -41,14 +54,25 @@ app.use(express.json());
 // Middleware - To pass the form data 
 app.use(express.urlencoded({extended: false}));
 
+// To use the cookie 
+app.use(cookieParser());
 
-app.use("/url", urlRoute);
+// Before restricted
+// app.use("/url", urlRoute);
 
-// For Frontend Static Pages
-app.use("/",staticRouter);
+// After restricted
+app.use("/url", restrictToLoggedInUserOnly, urlRoute)
 
 // For Sign up and login 
 app.use("/user",userRoute);
+
+// Before -> // For Frontend Static Pages
+// app.use("/",staticRouter);
+
+// last min -> to show only user url
+app.use("/",checkAuth,staticRouter)
+
+
 
 // get
 app.get('/url/:shortId', async (req, res) => {

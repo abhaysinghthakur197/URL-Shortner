@@ -13,6 +13,10 @@ async function handleGenerateNewShortURL(req,res) {
         shortId:shortID,
         redirectURL: body.url,
         visitHistory:[],
+
+        // It is added to get user id lec - bulding authentication
+        createdBy: req.user._id,
+        //  ******** //
      });
      
     //  Before adding frontend return shortId in json format
