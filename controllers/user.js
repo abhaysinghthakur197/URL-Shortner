@@ -3,6 +3,9 @@ const User = require("../models/user");
 // Adding uuid for user i.e user unique id
 const {v4: uuidv4} = require('uuid')
 
+// add service dairy
+const {setUser} = require('../service/auth')
+
 async function handleUserSignUp(req,res) {
     const {name,email,password} = req.body;
 
@@ -27,7 +30,12 @@ async function handleUserLogin(req,res) {
 
     // if login is successful then these will generate a session id
     const sessionId = uuidv4();
-   return res.redirect("/");
+    // set user an id
+    setUser(sessionId,user);
+
+    // return unique id of user in cookies
+    res.cookie("uid",sessionId);
+    return res.redirect("/");
 }
 
 module.exports = {
